@@ -176,13 +176,15 @@ def admin_dashboard():
     total = len(applications)
     pending = sum(1 for a in applications if getattr(a, 'status', 'pending') == 'pending')
     funds_requested = sum(float(a.amount_requested or 0) for a in applications)
-    
+    payments_sent = sum(1 for a in applications if a.payment_details is not None)
+
     return render_template(
-        'admin/dashboard.html', 
-        applications=applications, 
-        total=total, 
-        pending=pending, 
-        funds_requested=funds_requested
+        'admin/dashboard.html',
+        applications=applications,
+        total=total,
+        pending=pending,
+        funds_requested=funds_requested,
+        payments_sent=payments_sent
     )
 
 @bp.route('/admin/application/<int:app_id>')
@@ -210,6 +212,18 @@ def admin_reject(app_id):
     
     app = Application.query.get_or_404(app_id)
     app.status = 'rejected'
+    db.session.commit()
+    return jsonify({'success': True})
+
+@bp.route('/admin/delete/<int:app_id>', methods=['POST'])
+def admin_delete(app_id):
+    if not session.get('is_admin'):
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    app = Application.query.get_or_404(app_id)
+    # Remove any linked payment details first to satisfy the foreign key
+    PaymentDetails.query.filter_by(application_id=app.id).delete()
+    db.session.delete(app)
     db.session.commit()
     return jsonify({'success': True})
 

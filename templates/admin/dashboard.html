@@ -14,8 +14,8 @@
     </div>
 
     <!-- Stats -->
-    <div class="row mb-4">
-      <div class="col-md-4">
+    <div class="row mb-4 g-3">
+      <div class="col-md-3 col-sm-6">
         <div class="card text-white bg-primary">
           <div class="card-body">
             <h5>Total Applications</h5>
@@ -23,7 +23,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3 col-sm-6">
         <div class="card text-white bg-warning">
           <div class="card-body">
             <h5>Pending</h5>
@@ -31,11 +31,19 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3 col-sm-6">
         <div class="card text-white bg-success">
           <div class="card-body">
             <h5>Funds Requested</h5>
             <h2>${{ "{:,.0f}".format(funds_requested) }}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card text-white bg-info">
+          <div class="card-body">
+            <h5>Payments Sent</h5>
+            <h2>{{ payments_sent }}</h2>
           </div>
         </div>
       </div>
@@ -80,6 +88,7 @@
                 <button class="btn btn-sm btn-success approve-btn" data-id="{{ app.id }}">Approve</button>
                 <button class="btn btn-sm btn-danger reject-btn" data-id="{{ app.id }}">Reject</button>
                 {% endif %}
+                <button class="btn btn-sm btn-outline-danger delete-btn" data-id="{{ app.id }}" data-name="{{ app.first_name }} {{ app.last_name }}">Delete</button>
               </td>
             </tr>
             {% endfor %}
@@ -102,6 +111,14 @@
       btn.addEventListener('click', () => {
         if (confirm("Reject this application?")) {
           fetch(`/admin/reject/${btn.dataset.id}`, { method: 'POST' })
+            .then(() => location.reload());
+        }
+      });
+    });
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (confirm(`Permanently delete the application from ${btn.dataset.name}? This cannot be undone.`)) {
+          fetch(`/admin/delete/${btn.dataset.id}`, { method: 'POST' })
             .then(() => location.reload());
         }
       });
