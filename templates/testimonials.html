@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Testimonials – Hope Bridge Foundation{% endblock %}
+
+{#
+  PLACEHOLDER CONTENT: the stories, names and profile photos below are samples
+  (photos from randomuser.me). Replace them with real recipients' stories and
+  photos, used with their written permission, before the site goes live.
+#}
+{% set testimonials = [
+  {'name': 'Maria T.', 'location': 'Texas', 'grant': 'Debt Relief', 'photo': 'https://randomuser.me/api/portraits/women/44.jpg',
+   'quote': 'This grant paid off my $3,200 medical debt. I can finally sleep at night.'},
+  {'name': 'James L.', 'location': 'Georgia', 'grant': 'Small Business Funding', 'photo': 'https://randomuser.me/api/portraits/men/32.jpg',
+   'quote': 'I used the $7,500 to buy equipment for my bakery. Now I employ 3 people.'},
+  {'name': 'Amina K.', 'location': 'Michigan', 'grant': 'Debt Relief', 'photo': 'https://randomuser.me/api/portraits/women/68.jpg',
+   'quote': 'Fast, respectful, and no hidden fees. True hope in action.'},
+  {'name': 'David R.', 'location': 'Ohio', 'grant': 'Medical Expense Relief', 'photo': 'https://randomuser.me/api/portraits/men/52.jpg',
+   'quote': 'After my surgery the bills kept coming. Hope Bridge covered what insurance would not, and I could focus on getting better.'},
+  {'name': 'Sophia N.', 'location': 'California', 'grant': 'Education Support', 'photo': 'https://randomuser.me/api/portraits/women/21.jpg',
+   'quote': 'I was one semester away from dropping out. The grant covered my tuition and I graduated in the spring.'},
+  {'name': 'Carlos M.', 'location': 'Arizona', 'grant': 'Small Business Funding', 'photo': 'https://randomuser.me/api/portraits/men/75.jpg',
+   'quote': 'The funding helped me open my auto repair shop. The team actually took the time to understand my plan.'},
+  {'name': 'Grace O.', 'location': 'New York', 'grant': 'Education Support', 'photo': 'https://randomuser.me/api/portraits/women/90.jpg',
+   'quote': 'A new laptop and books for my nursing certification. It sounds small, but it changed everything for me.'},
+  {'name': 'Kevin P.', 'location': 'Illinois', 'grant': 'Debt Relief', 'photo': 'https://randomuser.me/api/portraits/men/41.jpg',
+   'quote': 'I lost my job and fell behind on rent and utilities. The grant kept my family in our home while I got back on my feet.'},
+  {'name': 'Linda W.', 'location': 'Florida', 'grant': 'Medical Expense Relief', 'photo': 'https://randomuser.me/api/portraits/women/12.jpg',
+   'quote': 'My son needed specialist care we could not afford. The application was simple and the support came quickly.'}
+] %}
+
+{% block extra_head %}
+<style>
+  .page-header {
+    background:
+      linear-gradient(rgba(10, 30, 80, 0.6), rgba(20, 50, 120, 0.55)),
+      url('https://images.pexels.com/photos/7289723/pexels-photo-7289723.jpeg?auto=compress&cs=tinysrgb&w=1920') center 30% / cover no-repeat;
+    color: #fff;
+    padding: 110px 0 90px;
+    text-align: center;
+  }
+  .page-header h1 { font-weight: 800; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35); }
+  .page-header .lead { text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35); }
+
+  .section-eyebrow {
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+  }
+  .section-title { font-weight: 800; color: #0d3b73; }
+
+  /* Featured story */
+  .featured-story {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 14px 34px rgba(13, 59, 115, 0.12);
+    padding: 2.5rem;
+  }
+  .featured-photo {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid #e8effc;
+  }
+  .featured-quote {
+    font-size: 1.3rem;
+    line-height: 1.7;
+    color: #1f2a44;
+    font-style: italic;
+  }
+
+  /* Testimonial cards */
+  .testimonial-card {
+    height: 100%;
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(13, 59, 115, 0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 34px rgba(13, 59, 115, 0.14);
+  }
+  .quote-icon { color: #c9d8f5; font-size: 1.8rem; }
+  .testimonial-card blockquote {
+    color: #44506b;
+    font-style: italic;
+    line-height: 1.7;
+    margin: 0.75rem 0 1.5rem;
+  }
+  .profile-photo {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e8effc;
+    flex-shrink: 0;
+  }
+  .profile-name { font-weight: 700; color: #0d3b73; margin: 0; }
+  .profile-meta { font-size: 0.875rem; color: #6b7690; margin: 0; }
+  .grant-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--primary);
+    background: #e8effc;
+    border-radius: 50px;
+    padding: 0.25rem 0.75rem;
+  }
+  .stars { color: #f5b301; font-size: 0.85rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <h1 class="display-5">Testimonials</h1>
+    <p class="lead mb-0">Real people. Real change. In their own words.</p>
+  </div>
+</section>
+
+<!-- Featured Story -->
+{% set featured = testimonials[1] %}
+<section class="section bg-light">
+  <div class="container" style="max-width: 960px;">
+    <div class="featured-story">
+      <div class="row align-items-center g-4">
+        <div class="col-md-3 text-center">
+          <img src="{{ featured.photo }}" alt="Portrait of {{ featured.name }}" class="featured-photo">
+        </div>
+        <div class="col-md-9">
+          <span class="section-eyebrow">Featured Story</span>
+          <p class="featured-quote mb-3">"{{ featured.quote }}"</p>
+          <p class="profile-name">{{ featured.name }}</p>
+          <p class="profile-meta mb-2">{{ featured.location }}</p>
+          <span class="grant-badge">{{ featured.grant }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- All Testimonials -->
+<section class="section">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-eyebrow">Stories</span>
+      <h2 class="section-title">What recipients say</h2>
+    </div>
+    <div class="row g-4">
+      {% for t in testimonials %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card testimonial-card">
+          <div class="card-body p-4 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start">
+              <i class="fas fa-quote-left quote-icon"></i>
+              <span class="grant-badge">{{ t.grant }}</span>
+            </div>
+            <blockquote>"{{ t.quote }}"</blockquote>
+            <div class="d-flex align-items-center gap-3 mt-auto">
+              <img src="{{ t.photo }}" alt="Portrait of {{ t.name }}" class="profile-photo" loading="lazy">
+              <div>
+                <p class="profile-name">{{ t.name }}</p>
+                <p class="profile-meta">{{ t.location }}</p>
+                <div class="stars" aria-label="5 out of 5 stars">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section bg-primary text-white text-center">
+  <div class="container">
+    <h2>Your story could be next</h2>
+    <p class="lead">The first step is just one application away.</p>
+    <a href="/apply" class="btn btn-light btn-lg mt-3"><i class="fas fa-pen"></i> Start Your Application</a>
+  </div>
+</section>
+{% endblock %}

@@ -168,6 +168,7 @@
   {% block extra_head %}{% endblock %}
 </head>
 <body>
+{% include "partials/loader.html" %}
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg sticky-top">
@@ -183,8 +184,8 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.index' %}active{% endif %}" href="{{ url_for('main.index') }}">Home</a></li>
         <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.about' %}active{% endif %}" href="{{ url_for('main.about') }}">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}#grants">Grants</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}#testimonials">Testimonials</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.grants' %}active{% endif %}" href="{{ url_for('main.grants') }}">Grants</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.testimonials' %}active{% endif %}" href="{{ url_for('main.testimonials') }}">Testimonials</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}#contact">Contact</a></li>
       </ul>
       <a href="/apply" class="btn btn-hope ms-lg-3">Apply Now</a>
@@ -213,18 +214,18 @@
         <ul class="list-unstyled">
           <li><a href="{{ url_for('main.index') }}" class="text-decoration-none">Home</a></li>
           <li><a href="{{ url_for('main.about') }}" class="text-decoration-none">About</a></li>
-          <li><a href="{{ url_for('main.index') }}#grants" class="text-decoration-none">Grants</a></li>
-          <li><a href="{{ url_for('main.index') }}#testimonials" class="text-decoration-none">Testimonials</a></li>
+          <li><a href="{{ url_for('main.grants') }}" class="text-decoration-none">Grants</a></li>
+          <li><a href="{{ url_for('main.testimonials') }}" class="text-decoration-none">Testimonials</a></li>
           <li><a href="{{ url_for('main.index') }}#contact" class="text-decoration-none">Contact</a></li>
         </ul>
       </div>
       <div class="col-md-3 col-sm-6">
         <h5 class="footer-heading">Our Grants</h5>
         <ul class="list-unstyled">
-          <li><a href="{{ url_for('main.index') }}#grants" class="text-decoration-none">Debt Relief Grant</a></li>
-          <li><a href="{{ url_for('main.index') }}#grants" class="text-decoration-none">Small Business Funding</a></li>
-          <li><a href="#" class="text-decoration-none">Medical Expense Relief</a></li>
-          <li><a href="#" class="text-decoration-none">Education Support</a></li>
+          <li><a href="{{ url_for('main.grants') }}#debt-relief" class="text-decoration-none">Debt Relief Grant</a></li>
+          <li><a href="{{ url_for('main.grants') }}#small-business" class="text-decoration-none">Small Business Funding</a></li>
+          <li><a href="{{ url_for('main.grants') }}#medical" class="text-decoration-none">Medical Expense Relief</a></li>
+          <li><a href="{{ url_for('main.grants') }}#education" class="text-decoration-none">Education Support</a></li>
         </ul>
       </div>
       <div class="col-md-3 col-sm-6">

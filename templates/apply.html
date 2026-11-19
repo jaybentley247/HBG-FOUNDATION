@@ -44,6 +44,7 @@
   </style>
 </head>
 <body>
+{% include "partials/loader.html" %}
   <div class="container py-5">
     <div class="text-center mb-5">
       <h2>Grant Application</h2>
@@ -111,12 +112,14 @@
             <option value="">Select</option>
             <option value="Debt Relief">Debt Relief</option>
             <option value="Small Business Funding">Small Business Funding</option>
+            <option value="Medical Expense Relief">Medical Expense Relief</option>
+            <option value="Education Support">Education Support</option>
             <option value="Other">Other</option>
           </select>
         </div>
         <div class="mb-3">
           <label>Amount Requested (USD) *</label>
-          <input type="number" name="amount_requested" class="form-control" min="100" max="10000" step="100" required>
+          <input type="number" name="amount_requested" class="form-control" min="1" step="any" required>
         </div>
         <div class="mb-3">
           <label>Reason for Application *</label>

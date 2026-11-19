@@ -15,6 +15,14 @@ def index():
 def about():
     return render_template('about.html')
 
+@bp.route('/grants')
+def grants():
+    return render_template('grants.html')
+
+@bp.route('/testimonials')
+def testimonials():
+    return render_template('testimonials.html')
+
 @bp.route('/apply', methods=['GET', 'POST'])
 def apply():
     if request.method == 'POST':
@@ -70,10 +78,10 @@ def apply():
 
             try:
                 amount_requested = float(amount_requested)
-                if amount_requested <= 0 or amount_requested > 10000:
+                if amount_requested <= 0:
                     raise ValueError
             except:
-                return jsonify({'error': 'Amount must be a positive number up to $10,000.'}), 400
+                return jsonify({'error': 'Amount must be a positive number.'}), 400
 
             session.update({
                 'grant_type': grant_type,

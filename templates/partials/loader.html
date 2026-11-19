@@ -1,0 +1,70 @@
+<!-- Page Loader -->
+<style>
+  #page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: #ffffff;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+  #page-loader.loaded {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .loader-ring {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .loader-ring::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 4px solid #e3ebf6;
+    border-top-color: #1a56db;
+    animation: loader-spin 0.9s linear infinite;
+  }
+  .loader-ring img {
+    width: 70px;
+    height: auto;
+    animation: loader-pulse 1.6s ease-in-out infinite;
+  }
+  .loader-text {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #0f3b62;
+  }
+  @keyframes loader-spin { to { transform: rotate(360deg); } }
+  @keyframes loader-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(0.92); } }
+  @media (prefers-reduced-motion: reduce) {
+    .loader-ring::before, .loader-ring img { animation: none; }
+  }
+</style>
+<div id="page-loader" role="status" aria-label="Loading">
+  <div class="loader-ring">
+    <img src="{{ url_for('static', filename='images/logo-mark.png') }}" alt="">
+  </div>
+  <div class="loader-text">Hope Bridge Foundation</div>
+</div>
+<script>
+  (function () {
+    var loader = document.getElementById('page-loader');
+    function hide() { loader.classList.add('loaded'); }
+    window.addEventListener('load', hide);
+    setTimeout(hide, 5000); // safety net if something is slow to load
+    // Hide again when returning via the browser back button
+    window.addEventListener('pageshow', function (e) { if (e.persisted) hide(); });
+  })();
+</script>

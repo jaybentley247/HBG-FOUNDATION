@@ -11,7 +11,7 @@
     <h1 class="display-3 fw-bold mb-4">Bridge to Financial Freedom</h1>
     <p class="lead mb-5">Hope Bridge Foundation empowers individuals through targeted grants for debt relief and small business growth.</p>
     <a href="/apply" class="btn btn-hope btn-lg me-3"><i class="fas fa-hand-holding-usd"></i> Apply for Grant</a>
-    <a href="#how-it-works" class="btn btn-outline-light btn-lg">How It Works</a>
+    <a href="{{ url_for('main.grants') }}#how-it-works" class="btn btn-outline-light btn-lg">How It Works</a>
   </div>
 </section>
 
@@ -231,64 +231,6 @@ At Hope Bridge Foundation, we believe that when you remove the right barrier at 
 </style>
 
 
-<!-- Types of Grants -->
-<section id="grants" class="section">
-  <div class="container">
-    <h2 class="text-center mb-5">Types of Grants</h2>
-    <div class="row">
-      <div class="col-md-6 mb-4">
-        <div class="card card-feature">
-          <div class="card-body">
-            <h4><i class="fas fa-balance-scale text-primary"></i> Debt Relief Grant</h4>
-            <p>Up to $5,000 to clear medical bills, credit card debt, or utility arrears. No repayment required.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 mb-4">
-        <div class="card card-feature">
-          <div class="card-body">
-            <h4><i class="fas fa-store text-primary"></i> Small Business Funding</h4>
-            <p>Grants up to $10,000 for entrepreneurs launching or expanding local businesses.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials -->
-<section id="testimonials" class="section bg-light">
-  <div class="container">
-    <h2 class="text-center mb-5">What Recipients Say</h2>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <p class="fst-italic">"This grant paid off my $3,200 medical debt. I can finally sleep at night."</p>
-            <strong>— Maria T., Texas</strong>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <p class="fst-italic">"I used the $7,500 to buy equipment for my bakery. Now I employ 3 people."</p>
-            <strong>— James L., Georgia</strong>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <p class="fst-italic">"Fast, respectful, and no hidden fees. True hope in action."</p>
-            <strong>— Amina K., Michigan</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- CTA -->
 <section class="section bg-primary text-white text-center">
   <div class="container">
@@ -329,45 +271,6 @@ At Hope Bridge Foundation, we believe that when you remove the right barrier at 
               </div>
               <button type="submit" class="btn btn-hope w-100">Send Message</button>
             </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials -->
-<section id="testimonials" class="section">
-  <div class="container">
-    <div class="text-center">
-      <div class="section-label">Stories</div>
-      <h2 class="display-6 fw-bold mb-5">What Recipients Say</h2>
-    </div>
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card testimonial-card shadow-sm">
-          <div class="card-body p-4">
-            <i class="fas fa-quote-left mb-3"></i>
-            <p class="fst-italic">"This grant paid off my $3,200 medical debt. I can finally sleep at night."</p>
-            <strong>— Maria T., Texas</strong>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card testimonial-card shadow-sm">
-          <div class="card-body p-4">
-            <i class="fas fa-quote-left mb-3"></i>
-            <p class="fst-italic">"I used the $7,500 to buy equipment for my bakery. Now I employ 3 people."</p>
-            <strong>— James L., Georgia</strong>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card testimonial-card shadow-sm">
-          <div class="card-body p-4">
-            <i class="fas fa-quote-left mb-3"></i>
-            <p class="fst-italic">"Fast, respectful, and no hidden fees. True hope in action."</p>
-            <strong>— Amina K., Michigan</strong>
           </div>
         </div>
       </div>
