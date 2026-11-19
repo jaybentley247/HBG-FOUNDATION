@@ -1,0 +1,88 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Application Details - {{ app.first_name }} {{ app.last_name }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-file-invoice-dollar me-2"></i>Application & Payment Details</h5>
+                    <a href="{{ url_for('main.admin_dashboard') }}" class="btn btn-sm btn-light">
+                        <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+                    </a>
+                </div>
+                
+                <div class="card-body p-4">
+                    <!-- Main Application Information -->
+                    <div class="mb-4">
+                        <h6 class="text-muted mb-3"><i class="fas fa-user-circle me-2"></i>Applicant Information</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Name:</strong> {{ app.first_name }} {{ app.last_name }}</p>
+                                <p><strong>Email:</strong> {{ app.email }}</p>
+                                <p><strong>Phone:</strong> {{ app.phone or 'N/A' }}</p>
+                                <p><strong>Date of Birth:</strong> {{ app.dob.strftime('%B %d, %Y') if app.dob else 'N/A' }}</p>
+                                <p><strong>Address:</strong> {{ app.address_street }}, {{ app.address_city }}, {{ app.address_state }} {{ app.address_zip }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Application ID:</strong> #{{ app.id }}</p>
+                                <p><strong>Grant Type:</strong> <span class="badge bg-info text-dark">{{ app.grant_type }}</span></p>
+                                <p><strong>Amount Requested:</strong> ${{ '{:,.2f}'.format(app.amount_requested or 0) }}</p>
+                                <p><strong>Status:</strong> 
+                                    <span class="badge bg-{% if app.status == 'approved' %}success{% elif app.status == 'rejected' %}danger{% else %}warning text-dark{% endif %}">
+                                        {{ app.status | capitalize }}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        {% if app.description %}
+                        <div class="mt-3">
+                            <p><strong>Grant Description / Reason:</strong></p>
+                            <p class="p-3 bg-light rounded border">{{ app.description }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Payment Details Section -->
+                    <hr class="my-4">
+                    <div class="mb-4">
+                        <h6 class="text-muted mb-3"><i class="fas fa-money-bill-wave me-2"></i>Payment Collection Details</h6>
+                        
+                        {% if app.payment_details %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Account Name:</strong> {{ app.payment_details.account_name }}</p>
+                                <p><strong>Account Number:</strong> {{ app.payment_details.account_number }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Bank Name:</strong> {{ app.payment_details.bank_name }}</p>
+                                <p><strong>Routing Number:</strong> {{ app.payment_details.routing_number or 'N/A' }}</p>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            No payment details have been collected yet for this application.
+                            <br><small>You can <a href="{{ url_for('main.collect_payment', app_id=app.id) }}" class="fw-bold">collect payment information now</a>.</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <hr class="my-4">
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="{{ url_for('main.collect_payment', app_id=app.id) }}" class="btn btn-outline-success">
+                            <i class="fas fa-hand-holding-usd me-1"></i>Collect / Update Payment
+                        </a>
+                        <a href="{{ url_for('main.admin_dashboard') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

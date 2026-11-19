@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Apply for Grant - Hope Bridge Foundation</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .step-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    .step-indicator::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: #e0e0e0;
+      z-index: 1;
+    }
+    .step {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      z-index: 2;
+      color: #6c757d;
+    }
+    .step.active {
+      background: #1a56db;
+      color: white;
+    }
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+    .btn-nav { min-width: 100px; }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <div class="text-center mb-5">
+      <h2>Grant Application</h2>
+      <p>Complete all steps to submit your request</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="step-indicator mb-4">
+      <div class="step active" id="step1-indicator">1</div>
+      <div class="step" id="step2-indicator">2</div>
+      <div class="step" id="step3-indicator">3</div>
+    </div>
+
+    <form id="multiStepForm" method="post">
+      <!-- Step 1: Personal Info -->
+      <div class="form-step active" id="step1">
+        <h4>Personal Information</h4>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>First Name *</label>
+            <input type="text" name="first_name" class="form-control" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Last Name *</label>
+            <input type="text" name="last_name" class="form-control" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Email Address *</label>
+            <input type="email" name="email" class="form-control" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Phone Number *</label>
+            <input type="tel" name="phone" class="form-control" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Date of Birth *</label>
+            <input type="date" name="dob" class="form-control" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>ZIP Code *</label>
+            <input type="text" name="address_zip" class="form-control" required>
+          </div>
+          <div class="col-md-12 mb-3">
+            <label>Street Address *</label>
+            <input type="text" name="address_street" class="form-control" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>City *</label>
+            <input type="text" name="address_city" class="form-control" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>State *</label>
+            <input type="text" name="address_state" class="form-control" required>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg btn-nav float-end" onclick="nextStep(2)">Next</button>
+      </div>
+
+      <!-- Step 2: Grant Details -->
+      <div class="form-step" id="step2">
+        <h4>Grant Details</h4>
+        <div class="mb-3">
+          <label>Type of Grant *</label>
+          <select name="grant_type" class="form-control" required>
+            <option value="">Select</option>
+            <option value="Debt Relief">Debt Relief</option>
+            <option value="Small Business Funding">Small Business Funding</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label>Amount Requested (USD) *</label>
+          <input type="number" name="amount_requested" class="form-control" min="100" max="10000" step="100" required>
+        </div>
+        <div class="mb-3">
+          <label>Reason for Application *</label>
+          <textarea name="description" class="form-control" rows="5" placeholder="Explain your situation..." required></textarea>
+        </div>
+        <button type="button" class="btn btn-secondary btn-nav" onclick="prevStep(1)">Back</button>
+        <button type="button" class="btn btn-primary btn-nav float-end" onclick="nextStep(3)">Next</button>
+      </div>
+
+      <!-- Step 3: Review & Submit -->
+      <div class="form-step" id="step3">
+        <h4>Review & Submit</h4>
+        <div class="alert alert-info">
+          Please review your information before submitting.
+        </div>
+        <div id="review-content" class="mb-3">
+          <!-- Filled dynamically -->
+        </div>
+        <div class="form-check mb-4">
+          <input type="checkbox" name="certify" class="form-check-input" id="certify" required>
+          <label class="form-check-label" for="certify">
+            I certify that the above information is true and accurate.
+          </label>
+        </div>
+        <button type="button" class="btn btn-secondary btn-nav" onclick="prevStep(2)">Back</button>
+        <button type="submit" class="btn btn-success btn-nav float-end">Submit Application</button>
+      </div>
+
+      <!-- Fallback for No JS -->
+      <noscript>
+        <div class="alert alert-danger mt-3">
+          JavaScript is required to apply. Please enable it or use a modern browser.
+        </div>
+      </noscript>
+    </form>
+  </div>
+
+  <!-- Inline Script to control form steps & AJAX submission flow -->
+  <script>
+    let currentStep = 1;
+
+    function showStep(step) {
+        document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+        document.getElementById(`step${step}`).classList.add('active');
+
+        for (let i = 1; i <= 3; i++) {
+            const indicator = document.getElementById(`step${i}-indicator`);
+            if (i <= step) {
+                indicator.classList.add('active');
+            } else {
+                indicator.classList.remove('active');
+            }
+        }
+        currentStep = step;
+    }
+
+    function nextStep(targetStep) {
+        const currentContainer = document.getElementById(`step${currentStep}`);
+        const inputs = currentContainer.querySelectorAll('input, select, textarea');
+        
+        let valid = true;
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                input.reportValidity();
+                valid = false;
+            }
+        });
+
+        if (!valid) return;
+
+        if (targetStep === 3) {
+            populateReview();
+        }
+
+        const formData = new FormData(document.getElementById('multiStepForm'));
+        formData.append('step', currentStep);
+
+        fetch('/apply', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+        .then(res => {
+            if (res.status === 200) {
+                showStep(targetStep);
+            } else {
+                alert(res.body.error || 'An error occurred.');
+            }
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            alert('Network error. Please try again.');
+        });
+    }
+
+    function prevStep(targetStep) {
+        showStep(targetStep);
+    }
+
+    function populateReview() {
+        const form = document.getElementById('multiStepForm');
+        const reviewContent = document.getElementById('review-content');
+        
+        const firstName = form.querySelector('[name="first_name"]').value;
+        const lastName = form.querySelector('[name="last_name"]').value;
+        const email = form.querySelector('[name="email"]').value;
+        const phone = form.querySelector('[name="phone"]').value;
+        const grantType = form.querySelector('[name="grant_type"]').value;
+        const amount = form.querySelector('[name="amount_requested"]').value;
+        const description = form.querySelector('[name="description"]').value;
+
+        reviewContent.innerHTML = `
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Name:</strong> ${firstName} ${lastName}</li>
+                <li class="list-group-item"><strong>Email:</strong> ${email}</li>
+                <li class="list-group-item"><strong>Phone:</strong> ${phone}</li>
+                <li class="list-group-item"><strong>Grant Type:</strong> ${grantType}</li>
+                <li class="list-group-item"><strong>Amount Requested:</strong> $${amount}</li>
+                <li class="list-group-item"><strong>Reason:</strong> ${description}</li>
+            </ul>
+        `;
+    }
+
+    document.getElementById('multiStepForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const certifyBox = document.getElementById('certify');
+        if (!certifyBox.checked) {
+            alert('You must certify the information before submitting.');
+            return;
+        }
+
+        const formData = new FormData(this);
+        formData.append('step', '3');
+
+        fetch('/apply', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+        .then(res => {
+            if (res.status === 200 && res.body.redirect) {
+                window.location.href = res.body.redirect;
+            } else {
+                alert(res.body.error || 'Submission failed.');
+            }
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            alert('An unexpected error occurred.');
+        });
+    });
+  </script>
+</body>
+</html>
