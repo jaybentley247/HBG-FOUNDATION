@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
 from models import db, Application, PaymentDetails
 from datetime import datetime
+import hmac
 import json
+import os
 from utils import send_approval_email
 from config import Config
 
@@ -148,12 +150,18 @@ def success():
 @bp.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
-        password = request.form.get('password')
-        if password == 'admin123':  # You can change this password anytime
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '')
+        # Credentials come from ADMIN_USERNAME / ADMIN_PASSWORD in .env
+        expected_user = os.getenv('ADMIN_USERNAME', '')
+        expected_pass = os.getenv('ADMIN_PASSWORD', '')
+        if (expected_user and expected_pass
+                and hmac.compare_digest(username, expected_user)
+                and hmac.compare_digest(password, expected_pass)):
             session['is_admin'] = True
             return redirect(url_for('main.admin_dashboard'))
         else:
-            flash('Invalid admin password.')
+            flash('Invalid username or password.')
     return render_template('admin/login.html')
 
 @bp.route('/admin/dashboard')
