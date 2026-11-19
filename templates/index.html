@@ -21,29 +21,86 @@
     <div class="row g-4">
       <div class="col-md-3 col-sm-6">
         <div class="stats-card">
-          <div class="stats-number">2,300+</div>
+          <div class="stats-number" data-target="2300" data-suffix="+" data-comma="1" data-final="2,300+">2,300+</div>
           <div>Lives Impacted</div>
         </div>
       </div>
       <div class="col-md-3 col-sm-6">
         <div class="stats-card">
-          <div class="stats-number">$1.2M</div>
+          <div class="stats-number" data-target="1.2" data-prefix="$" data-suffix="M" data-decimals="1" data-final="$1.2M">$1.2M</div>
           <div>Grants Distributed</div>
         </div>
       </div>
       <div class="col-md-3 col-sm-6">
         <div class="stats-card">
-          <div class="stats-number">95%</div>
+          <div class="stats-number" data-target="95" data-suffix="%" data-final="95%">95%</div>
           <div>Satisfaction Rate</div>
         </div>
       </div>
       <div class="col-md-3 col-sm-6">
         <div class="stats-card">
-          <div class="stats-number">5-7</div>
+          <div class="stats-number" data-target="7" data-final="5-7">5-7</div>
           <div>Day Processing</div>
         </div>
       </div>
     </div>
+
+  <script>
+    (function () {
+      var nums = document.querySelectorAll('.stats-number[data-target]');
+      if (!nums.length) return;
+
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function format(el, value) {
+        var decimals = parseInt(el.dataset.decimals || '0', 10);
+        var str = value.toFixed(decimals);
+        if (el.dataset.comma) str = Number(str).toLocaleString('en-US');
+        return (el.dataset.prefix || '') + str + (el.dataset.suffix || '');
+      }
+
+      function animate(el) {
+        if (el.dataset.running) return;
+        if (reduce) { el.textContent = el.dataset.final; return; }
+        el.dataset.running = '1';
+        var target = parseFloat(el.dataset.target);
+        var duration = 1800;
+        var start = null;
+        function step(ts) {
+          if (start === null) start = ts;
+          var p = Math.min((ts - start) / duration, 1);
+          var eased = 1 - Math.pow(1 - p, 3); // ease-out
+          el.textContent = format(el, target * eased);
+          if (p < 1) {
+            requestAnimationFrame(step);
+          } else {
+            el.textContent = el.dataset.final; // snap to exact original text
+            delete el.dataset.running;
+          }
+        }
+        requestAnimationFrame(step);
+      }
+
+      // Start at zero, then count up each time the stats scroll into view
+      if ('IntersectionObserver' in window) {
+        nums.forEach(function (el) { el.textContent = format(el, 0); });
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              animate(entry.target);
+            } else {
+              // Reset so it replays on the next scroll back into view
+              delete entry.target.dataset.running;
+              entry.target.textContent = format(entry.target, 0);
+            }
+          });
+        }, { threshold: 0.4 });
+        nums.forEach(function (el) { observer.observe(el); });
+      } else {
+        nums.forEach(animate);
+      }
+    })();
+  </script>
   </div>
 </section>
 
