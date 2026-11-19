@@ -13,6 +13,10 @@ def send_templated_email(to_email, subject, template_name, **context):
         "Content-Type": "application/json"
     }
     
+    # Provide an absolute logo URL for the email header (email clients need absolute URLs)
+    domain = getattr(Config, 'DOMAIN', 'http://localhost:5000').rstrip('/')
+    context.setdefault('logo_url', f"{domain}/static/images/logo.png")
+
     # Render the Jinja2 template into an HTML string
     html_body = render_template(f"emails/{template_name}", **context)
     

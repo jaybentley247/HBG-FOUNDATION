@@ -4,10 +4,14 @@ from datetime import datetime
 import hmac
 import json
 import os
-from utils import send_approval_email
+from send_email import send_approval_email
 from config import Config
 
 bp = Blueprint('main', __name__)
+
+@bp.app_context_processor
+def inject_now_year():
+    return {'now_year': datetime.utcnow().year}
 
 @bp.route('/')
 def index():
@@ -203,7 +207,15 @@ def admin_approve(app_id):
     app = Application.query.get_or_404(app_id)
     app.status = 'approved'
     db.session.commit()
-    return jsonify({'success': True})
+
+    # Email the applicant a link to the payment-collection page
+    email_sent = False
+    try:
+        email_sent = send_approval_email(app.email, app.first_name, app.id)
+    except Exception as e:
+        print(f"Approval email failed for application {app.id}: {e}")
+
+    return jsonify({'success': True, 'email_sent': bool(email_sent)})
 
 @bp.route('/admin/reject/<int:app_id>', methods=['POST'])
 def admin_reject(app_id):
