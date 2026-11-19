@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hope Bridge Foundation – Financial Freedom for All</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
@@ -30,6 +31,19 @@
       color: var(--primary) !important;
     }
 
+    .site-logo {
+      height: 48px;
+      width: auto;
+    }
+
+    .footer-logo {
+      height: 56px;
+      width: auto;
+      background: #fff;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+
     .nav-link {
       font-weight: 500;
       transition: color 0.2s;
@@ -41,11 +55,33 @@
     }
 
     .hero {
-      background: linear-gradient(rgba(10, 30, 80, 0.7), rgba(20, 50, 120, 0.6)), url('https://images.unsplash.com/photo-1504639725590-34d0984388bd?ixlib=rb-4.0.3') center/cover no-repeat;
+      position: relative;
+      overflow: hidden;
       height: 100vh;
       display: flex;
       align-items: center;
       color: white;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(10, 30, 80, 0.7), rgba(20, 50, 120, 0.6));
+      z-index: 1;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 2;
     }
 
     .btn-hope {
@@ -124,7 +160,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg sticky-top">
   <div class="container">
-    <a class="navbar-brand" href="#"><i class="fas fa-bridge me-2"></i>Hope Bridge</a>
+    <a class="navbar-brand" href="#"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Hope Bridge Foundation" class="site-logo"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -143,6 +179,10 @@
 
 <!-- Hero Section -->
 <section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="https://www.pexels.com/download/video/8815375/" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
   <div class="container text-center">
     <h1 class="display-3 fw-bold mb-4">Bridge to Financial Freedom</h1>
     <p class="lead mb-5">Hope Bridge Foundation empowers individuals through targeted grants for debt relief and small business growth.</p>
@@ -182,6 +222,189 @@
     </div>
   </div>
 </section>
+
+<!-- Mission Section (article style) -->
+<section class="mission-section" id="mission">
+  <div class="container">
+
+    <!-- Intro -->
+    <header class="mission-intro">
+      <span class="mission-eyebrow">Our Mission</span>
+      <h2 class="mission-headline">Bridging the gap between need and opportunity</h2>
+      <p class="mission-lead">
+        Talent and determination exist in every zip code. Opportunity does not.
+
+Hope Bridge Foundation was established to close the widening gap between ambition and access. Every day, capable, hardworking people are held back not by a lack of effort or vision, but by a single unexpected setback, an unaffordable tuition bill, or a lack of early-stage capital. Traditional institutions often overlook those who need support most—leaving resilient individuals and grassroots builders to navigate critical turning points alone.
+
+We exist to change that equation. Rather than offering temporary band-aids, Hope Bridge Foundation delivers non-repayable grants, practical financial tools, and structured guidance designed to create lasting upward mobility. We focus our investments on three pillars that strengthen entire communities from the ground up:
+
+Individuals Rebuilding Their Lives: Life rarely follows a straight line. When medical emergencies, job displacement, or unforeseen financial shocks strike, we provide targeted relief grants and recovery resources that help hardworking people regain their footing, protect their households, and move forward with dignity.
+
+Students Pursuing an Education: Financial barriers should never decide who gets to finish a degree or master a trade. We support driven learners with educational grants, career-readiness mentorship, and essential resources so they can stay enrolled, graduate without crushing debt, and step into high-opportunity careers.
+
+Small Businesses Creating Local Jobs: Neighborhood entrepreneurs are the backbone of economic resilience. We back emerging and growing small businesses with direct grant funding, operational guidance, and strategic support—helping founders stabilize cash flow, expand capacity, and create meaningful employment right where they live.
+
+At Hope Bridge Foundation, we believe that when you remove the right barrier at the right moment, people don't just recover—they build, hire, mentor, and lift others alongside them. This is the work we do, the standard we hold ourselves to, and the people we are proud to stand behind.
+      </p>
+    </header>
+
+    <!-- Block 1: Individuals (image left) -->
+    <div class="mission-block">
+      <figure class="mission-figure">
+        <img src="https://images.pexels.com/photos/8524978/pexels-photo-8524978.jpeg"
+             alt="A grant recipient and her children standing together outside their home">
+        <figcaption>
+          A Hope Bridge grant recipient with her family. Direct support helps
+          households cover essential needs and regain stability.
+        </figcaption>
+      </figure>
+      <div class="mission-copy">
+        <h3>A hand up for individuals &amp; families</h3>
+        <p>
+          For people facing sudden hardship, a small amount of timely support
+          can change everything. We provide direct grants that cover essential
+          needs — housing, healthcare, and the everyday costs that let families
+          steady themselves and plan for what's next, with dignity and without
+          red tape.
+        </p>
+      </div>
+    </div>
+
+    <!-- Block 2: Students (image right) -->
+    <div class="mission-block mission-block--reverse">
+      <figure class="mission-figure">
+        <img src="https://images.pexels.com/photos/8617888/pexels-photo-8617888.jpeg"
+             alt="A student studying at a desk in a university library">
+        <figcaption>
+          A scholarship student at work. Education funding removes the barriers
+          between ambition and achievement.
+        </figcaption>
+      </figure>
+      <div class="mission-copy">
+        <h3>Opening doors through education</h3>
+        <p>
+          We invest in students who have the drive but not the means. Our
+          education grants fund tuition, books, and learning tools — ensuring
+          that a lack of money never decides who gets to learn, graduate, and
+          build a career that lifts their whole family.
+        </p>
+      </div>
+    </div>
+
+    <!-- Block 3: Small Businesses (image left) -->
+    <div class="mission-block">
+      <figure class="mission-figure">
+        <img src="https://images.pexels.com/photos/7289723/pexels-photo-7289723.jpeg"
+             alt="A small-business owner arranging products in her shop">
+        <figcaption>
+          A local entrepreneur in her storefront. Seed grants help small
+          businesses launch, grow, and employ their neighbors.
+        </figcaption>
+      </figure>
+      <div class="mission-copy">
+        <h3>Fueling local entrepreneurs</h3>
+        <p>
+          Small businesses are the heartbeat of every community. We provide seed
+          grants and practical support that help entrepreneurs turn an idea into
+          an income — opening doors, creating jobs, and keeping local economies
+          strong from the ground up.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .mission-section {
+    background: #ffffff;
+    padding: 5rem 0;
+    color: #1f2a44;
+  }
+  .mission-intro {
+    max-width: 760px;
+    margin: 0 auto 4rem;
+    text-align: center;
+  }
+  .mission-eyebrow {
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1b5fb0;              /* brand blue */
+    margin-bottom: 1rem;
+  }
+  .mission-headline {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #0d3b73;             /* deep navy */
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+  }
+  .mission-lead {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #44506b;
+  }
+
+  .mission-block {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+  .mission-block--reverse {
+    flex-direction: row-reverse;
+  }
+  .mission-figure {
+    flex: 1;
+    margin: 0;
+  }
+  .mission-figure img {
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 14px 34px rgba(13, 59, 115, 0.15);
+    display: block;
+  }
+  .mission-figure figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: #6b7690;
+    font-style: italic;
+    border-left: 3px solid #1b5fb0;
+    padding-left: 0.75rem;
+  }
+  .mission-copy {
+    flex: 1;
+  }
+  .mission-copy h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0d3b73;
+    margin-bottom: 1rem;
+  }
+  .mission-copy p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #44506b;
+    margin: 0;
+  }
+
+  /* Mobile: stack image over text */
+  @media (max-width: 768px) {
+    .mission-block,
+    .mission-block--reverse {
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .mission-headline { font-size: 1.8rem; }
+    .mission-figure img { height: 240px; }
+  }
+</style>
 
 <!-- About Us -->
 <section id="about" class="section bg-light">
@@ -280,7 +503,7 @@
         <ul class="list-unstyled">
           <li><i class="fas fa-envelope text-primary me-2"></i> info@hopebridge.org</li>
           <li><i class="fas fa-phone text-primary me-2"></i> (555) 123-4567</li>
-          <li><i class="fas fa-map-marker-alt text-primary me-2"></i> 123 Hope Street, USA</li>
+          <li><i class="fas fa-map-marker-alt text-primary me-2"></i> 68-07 Springfield Boulevard, #68-07, Bayside, NY, United States, 11364</li>
         </ul>
       </div>
       <div class="col-md-6">
@@ -352,7 +575,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-4 col-sm-6">
-        <h5 class="footer-heading"><i class="fas fa-bridge me-2"></i>Hope Bridge</h5>
+        <h5 class="footer-heading"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Hope Bridge Foundation" class="footer-logo"></h5>
         <p>A 501(c)(3) nonprofit dedicated to breaking cycles of financial hardship through targeted grants.</p>
         <div class="mt-3">
           <a href="#" class="social-icon me-2"><i class="fab fa-facebook"></i></a>
